@@ -1,0 +1,46 @@
+---
+- apt: pkg=$item state=latest install_recommends=no
+  with_items:
+  - python-pycurl
+- apt_repository: repo='ppa:git-core'
+- apt_repository: repo='ppa:webupd8team/java'
+- apt: update_cache=yes cache_valid_time=7200
+- name: Accept the license for Oracle JDK
+  action: raw sudo echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+- name: Install Oracle JDK 7 package
+  action: $ansible_pkg_mgr pkg='$item' state=installed
+  with_items:
+  - oracle-java7-installer
+  - oracle-java7-set-default
+- apt: pkg=$item state=latest install_recommends=no
+  with_items:
+  - git-core  
+  - tmux
+  - htop
+  - mc  
+  - vim
+  - curl
+  - build-essential
+  - gawk
+  - libyaml-dev
+  - libsqlite3-dev
+  - sqlite3
+  - libffi-dev  
+- name: install RVM
+  shell: curl -L https://get.rvm.io | bash -s -- --ignore-dotfiles creates=~/.rvm
+  sudo_user: vagrant
+  tags: [ruby]
+- name: install Ruby 2.0 and 1.9
+  shell: bash -c 'source /home/vagrant/.rvm/scripts/rvm && rvm install --default $item creates=~/.rvm/rubies/$item '
+  tags: [ruby]
+  sudo_user: vagrant
+  with_items:
+  - ruby-1.9.3-p448
+  - ruby-2.0.0-p247
+- name: install Ruby 2.0 and 1.9
+  shell: bash -c 'source /home/vagrant/.rvm/scripts/rvm && rvm use $item && gem install bundler '
+  tags: [ruby]
+  sudo_user: vagrant
+  with_items:
+  - ruby-1.9.3-p448
+  - ruby-2.0.0-p247

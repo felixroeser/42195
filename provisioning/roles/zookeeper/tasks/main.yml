@@ -1,0 +1,5 @@
+- apt_repository: repo='deb [arch=amd64] http://archive.cloudera.com/cdh4/ubuntu/precise/amd64/cdh precise-cdh4 contrib' state=present update_cache=yes
+- apt: pkg=$item state=latest install_recommends=yes force=yes
+  with_items:
+  - zookeeper  
+  - zookeeper-server
