@@ -6,11 +6,11 @@
 - name: zookeeper | check dir
   stat: path=/var/lib/zookeeper
   register: check_path
-- name: zookeeper | init
-  shell: zookeeper-server-initialize
-  when: check_path.stat.exists == false
 - name: zookeeper | datadir owner
   file: dest=/var/lib/zookeeper mode=774 owner=zookeeper group=zookeeper state=directory recurse=yes
+  when: check_path.stat.exists == false
+- name: zookeeper | init
+  shell: service zookeeper-server init
   when: check_path.stat.exists == false
 - service: name=zookeeper-server state=started
 

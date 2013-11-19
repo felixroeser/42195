@@ -1,5 +1,4 @@
 ---
-- hosts: all
 - hosts: notall
   roles:
     -  role: common
@@ -14,6 +13,7 @@
   roles:
     - role: mesos
       master: true
+    - role: marathon
 
 - hosts: slaves
   vars:
@@ -21,3 +21,17 @@
   roles:
     - role: mesos
       master: false
+
+- hosts: hdfsnamenodes
+  vars:
+    zookeeper_servers: 10.1.1.10:2181
+  roles:
+    - role: hdfs
+      namenode: true
+
+- hosts: hdfsdatanodes
+  vars:
+    zookeeper_servers: 10.1.1.10:2181
+  roles:
+    - role: hdfs
+      namenode: false

@@ -1,0 +1,11 @@
+- name: marathon | download
+  get_url:
+    url: https://dl.dropboxusercontent.com/u/1379756/binarysolo/marathon.deb
+    dest: /usr/local/marathon.deb
+    sha256sum: 54ef922f28a84663b96b87633061006942ed708d877dc495c5c14b5ae775852c
+- name: marathon | install
+  command: dpkg --skip-same-version -i /usr/local/{{ item }}
+  register: dpkg_result
+  changed_when: "dpkg_result.stdout.startswith('Selecting')"
+  with_items: 
+    - marathon.deb

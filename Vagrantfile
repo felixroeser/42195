@@ -14,7 +14,7 @@ cluster_config = {
   },
   slaves: {
     memory: 1024,
-    nr: 1,
+    nr: 2,
     cpus: 1,
     base_ip: '10.1.3'
   }
