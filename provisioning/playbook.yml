@@ -8,30 +8,22 @@
     - role: zookeeper
 
 - hosts: masters
-  vars:
-    zookeeper_servers: 10.1.1.10:2181
   roles:
     - role: mesos
       master: true
     - role: marathon
 
 - hosts: slaves
-  vars:
-    zookeeper_servers: 10.1.1.10:2181
   roles:
     - role: mesos
       master: false
 
 - hosts: hdfsnamenodes
-  vars:
-    zookeeper_servers: 10.1.1.10:2181
   roles:
     - role: hdfs
       namenode: true
 
 - hosts: hdfsdatanodes
-  vars:
-    zookeeper_servers: 10.1.1.10:2181
   roles:
     - role: hdfs
       namenode: false

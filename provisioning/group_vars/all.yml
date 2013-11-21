@@ -1,0 +1,6 @@
+---
+zookeeper_servers: 10.1.1.10:2181
+namenode_server: 10.1.2.10    
+datanode_servers:
+  - 10.1.3.10
+  - 10.1.3.11
