@@ -1,1 +1,3 @@
-{{ namenode_server }}
+{% for host in groups['hdfsnamenodes'] %}
+{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}
+{% endfor %}

@@ -1,1 +1,1 @@
-zk://{{ zookeeper_servers }}/mesos
+zk://{{ hostvars[groups['zookeepers'][0]]['ansible_eth1']['ipv4']['address'] }}:2181/mesos

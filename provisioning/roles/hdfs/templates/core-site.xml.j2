@@ -4,6 +4,6 @@
 <configuration>
   <property>
     <name>fs.defaultFS</name>
-    <value>hdfs://{{ namenode_server }}:54310</value>
+    <value>hdfs://{{ hostvars[groups['hdfsnamenodes'][0]]['ansible_eth1']['ipv4']['address'] }}:54310</value>
   </property>
 </configuration>
