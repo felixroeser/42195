@@ -9,7 +9,6 @@
   changed_when: "dpkg_result.stdout.startswith('Selecting')"
   with_items: 
     - mesos_0.14.0-rc4_amd64.deb
-- debug: msg="Hostvars {{ master }}"
 - name: mesos | zookeeper config
   template: src=zk.j2 dest=/etc/mesos/zk
 - name: mesos | ip address
