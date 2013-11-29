@@ -32,6 +32,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder ".", "/vagrant", nfs: true
 
+  config.landrush.enable
+
   cluster_config.each do |node_type, node_config|
 
     node_config[:nr].times do |node_nr|
