@@ -1,5 +1,5 @@
 ---
-- hosts: notall
+- hosts: all
   roles:
     -  role: common
 
