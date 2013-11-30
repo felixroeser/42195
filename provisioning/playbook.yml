@@ -7,13 +7,13 @@
   roles:
     - role: zookeeper
 
-- hosts: masters
+- hosts: vorarbeiter
   roles:
     - role: mesos
       master: true
     - role: marathon
 
-- hosts: slaves
+- hosts: maloche
   roles:
     - role: mesos
       master: false
@@ -27,3 +27,7 @@
   roles:
     - role: hdfs
       namenode: false
+
+- hosts: directors
+  roles:
+    - role: director

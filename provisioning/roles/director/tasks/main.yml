@@ -1,0 +1,12 @@
+---
+- apt: pkg=$item state=latest install_recommends=no
+  with_items:
+  - python-pycurl
+- apt_repository: repo='ppa:vbernat/haproxy-1.4'
+- apt: pkg=$item state=latest install_recommends=no
+  with_items:
+  - haproxy
+- lineinfile:
+    dest: /etc/default/haproxy
+    regexp: ^ENABLED=
+    line: ENABLED=0

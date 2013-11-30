@@ -3,6 +3,7 @@
     url: https://dl.dropboxusercontent.com/u/1379756/binarysolo/marathon.deb
     dest: /usr/local/marathon.deb
     sha256sum: 54ef922f28a84663b96b87633061006942ed708d877dc495c5c14b5ae775852c
+- action: file path=/etc/marathon state=directory    
 - name: mesos | wrapper
   template: src=conf.j2 dest=/etc/marathon/conf mode=644
 - name: marathon | install

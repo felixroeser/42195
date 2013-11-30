@@ -1,14 +1,14 @@
 - name: mesos | download
   get_url:
-    url: http://downloads.mesosphere.io/master/ubuntu/12.04/mesos_0.14.0-rc4_amd64.deb
-    dest: /usr/local/mesos_0.14.0-rc4_amd64.deb
-    sha256sum: 19c083a283c1239b371980695de019a7b6911c99b3f44147e37925b2731f1362
+    url: http://downloads.mesosphere.io/master/ubuntu/12.04/mesos_0.14.2_amd64.deb
+    dest: /usr/local/mesos_0.14.2_amd64.deb
+    sha256sum: da994580accaba5009935a2b74ce9911830a0a111f3bb4c1a97219aedb217280
 - name: mesos | install
   command: dpkg --skip-same-version -i /usr/local/{{ item }}
   register: dpkg_result
   changed_when: "dpkg_result.stdout.startswith('Selecting')"
   with_items: 
-    - mesos_0.14.0-rc4_amd64.deb
+    - mesos_0.14.2_amd64.deb
 - name: mesos | zookeeper config
   template: src=zk.j2 dest=/etc/mesos/zk
 - name: mesos | ip address

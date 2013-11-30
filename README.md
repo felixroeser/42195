@@ -6,6 +6,7 @@ Run http://mesos.apache.org/ along with https://github.com/mesosphere/marathon p
 
 ````
 vagrant plugin install landrush
+vagrant up
 ````
 
 ## Ansible powered provisioning
