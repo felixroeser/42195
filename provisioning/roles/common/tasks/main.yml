@@ -36,8 +36,8 @@
   - ruby-switch
   - ruby2.0-dev
 - shell: 'ruby-switch --set ruby2.0'
-- name: Ruby | install bundler
-  shell: 'gem install bundler'
+- name: Ruby | install bundler, rake, foreman
+  shell: 'gem install --no-ri --no-rdoc bundler rake foreman'
 - name: Nodejs | install
   action: $ansible_pkg_mgr pkg=nodejs state=installed
 - name: ENV | zookeepers
