@@ -1,8 +1,8 @@
 - name: marathon | download
   get_url:
-    url: https://dl.dropboxusercontent.com/u/1379756/binarysolo/marathon.deb
-    dest: /usr/local/marathon.deb
-    sha256sum: 54ef922f28a84663b96b87633061006942ed708d877dc495c5c14b5ae775852c
+    url: https://dl.dropboxusercontent.com/u/1379756/binarysolo/marathon-0.2.2-SNAPSHOT_amd64.deb
+    dest: /usr/local/marathon-0.2.2-SNAPSHOT_amd64.deb
+    sha256sum: 68d0577a474b9c2c723d8e9496199a5a1d9e58a6ecdfdab53af7767855f2f8ac
 - action: file path=/etc/marathon state=directory    
 - name: mesos | wrapper
   template: src=conf.j2 dest=/etc/marathon/conf mode=644
@@ -11,7 +11,7 @@
   register: dpkg_result
   changed_when: "dpkg_result.stdout.startswith('Selecting')"
   with_items: 
-    - marathon.deb
+    - marathon-0.2.2-SNAPSHOT_amd64.deb
 - name: marathon | start
   service: name=marathon state=started
 
