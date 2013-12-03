@@ -1,2 +1,4 @@
 .vagrant
 test
+._OriginalVagrantfile
+.fuse_hidden*

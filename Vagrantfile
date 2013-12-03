@@ -7,6 +7,18 @@ cluster_config = {
     nr: 1,
     base_ip: '10.1.1'
   },
+  docker: {
+    memory: 256,
+    nr: 1,
+    cpus: 1,
+    base_ip: '10.1.5'
+  },
+  director: {
+    memory: 256,
+    nr: 1,
+    cpus: 1,
+    base_ip: '10.1.4'
+  },  
   vorarbeiter: {
     memory: 1024,
     nr: 1,
@@ -15,14 +27,8 @@ cluster_config = {
   maloche: {
     memory: 512,
     nr: 3,
-    cpus: 1,
+    cpus: 2,
     base_ip: '10.1.3'
-  },
-  director: {
-    memory: 256,
-    nr: 1,
-    cpus: 1,
-    base_ip: '10.1.4'
   }
 }
 
@@ -33,8 +39,9 @@ cluster_name = 'cluster1'
 # vagrant-omnibus, vagrant-hosts => vagrant plugin install vagrant-cachier
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box = "42195"
+  # See http://blog.phusion.nl/2013/11/08/docker-friendly-vagrant-boxes/
+  config.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/ubuntu-12.04.3-amd64-vbox.box"
 
   # for vagrant-cachier
   config.cache.auto_detect = true

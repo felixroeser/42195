@@ -5,6 +5,8 @@ Run http://mesos.apache.org/ along with https://github.com/mesosphere/marathon p
 ## Vagrant setup
 
 ````
+vagrant plugin install vagrant-omnibus
+vagrant plugin install vagrant-hosts
 vagrant plugin install landrush
 vagrant up
 ````
