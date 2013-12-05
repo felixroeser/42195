@@ -1,33 +1,40 @@
 ---
 - hosts: all
   roles:
-    -  role: common
+    - role: common
 
-- hosts: zookeepers
+- hosts: WASzookeepers
   roles:
+    - role: java
     - role: zookeeper
 
 - hosts: vorarbeiter
   roles:
+    - role: java
     - role: mesos
       master: true
     - role: marathon
 
 - hosts: maloche
   roles:
+    - role: java
     - role: mesos
       master: false
+    - role: runtimes
 
 - hosts: hdfsnamenodes
   roles:
+    - role: java
     - role: hdfs
       namenode: true
 
 - hosts: hdfsdatanodes
   roles:
+    - role: java
     - role: hdfs
       namenode: false
 
 - hosts: directors
   roles:
     - role: director
+    - role: runtimes

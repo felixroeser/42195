@@ -1,0 +1,10 @@
+---
+- apt_repository: repo='ppa:webupd8team/java'
+- apt: update_cache=yes cache_valid_time=7200
+- name: Accept the license for Oracle JDK
+  action: raw sudo echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+- name: Install Oracle JDK 7
+  action: $ansible_pkg_mgr pkg='$item' state=installed
+  with_items:
+  - oracle-java7-installer
+  - oracle-java7-set-default

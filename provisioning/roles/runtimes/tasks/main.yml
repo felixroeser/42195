@@ -1,0 +1,24 @@
+---
+- apt_repository: repo='ppa:brightbox/ruby-ng'
+- apt_repository: repo='ppa:chris-lea/node.js'
+- apt: update_cache=yes cache_valid_time=7200
+- apt: pkg=$item state=latest install_recommends=no
+  with_items:
+  - build-essential
+  - gawk
+  - libyaml-dev
+  - libffi-dev  
+  - libsqlite3-dev
+  - sqlite3
+- name: Ruby | install
+  action: $ansible_pkg_mgr pkg='$item' state=installed
+  with_items:
+  - ruby2.0
+  - rubygems
+  - ruby-switch
+  - ruby2.0-dev
+- shell: 'ruby-switch --set ruby2.0'
+- name: Ruby | install bundler, rake, foreman
+  shell: 'gem install --no-ri --no-rdoc bundler rake foreman'
+- name: Nodejs | install
+  action: $ansible_pkg_mgr pkg=nodejs state=installed

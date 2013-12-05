@@ -1,0 +1,6 @@
+- name: docker registry | present?
+  sheel: docker images | grep stackbrew/registry
+  register: docker_registry_present
+- name: docker registry | pull
+  shell: docker pull stackbrew/registry
+  when: docker_registry_present.stdout.find('registry') == -1
