@@ -4,6 +4,8 @@ Run http://mesos.apache.org/ along with https://github.com/mesosphere/marathon p
 
 ## Vagrant setup
 
+* Instances are hardcoded - dynamic configuration coming soonish
+
 ````
 vagrant plugin install vagrant-omnibus
 vagrant plugin install vagrant-hosts
@@ -13,28 +15,17 @@ vagrant up
 
 ## Ansible powered provisioning
 
-TBA
+* Ips are currently hardcoded
 
-## First steps
-
-````
-# Forward mesos ui
-vagrant ssh masters-0 -- -L 5050:10.1.2.10:5050
-# Forward marathon ui
-vagrant ssh masters-0 -- -L 8080:10.1.2.10:8080
-````
-
-### Test jobs
+### Seed infrastructure tier 0 - docker registry and zookeeper
 
 ````
-gem install marathon_client
-
-# https download fails => use heel and ngrok.com
-# marathon start -i sinatra -u http://github.com/felixroeser/mesos-example-sinatra/archive/1.0.tar.gz \
-#    -C "cd mesos-example-sinatra-1.0 && bundle install && bundle exec rackup" -c 1.0 -m 256
-
-
+cd provisioning
+ansible-playbook playbook.yml -i inventory --private-key=./../scripts/sshkey/id_rsa -vvvv -u root -s -l it0
 ````
 
+### Seed infrastructure tier 1 - mesos and marathon
 
+### Seed infrastructure tier 2 - (director)hitchcock
 
+### Seed application tier 1 - mesos slave

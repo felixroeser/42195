@@ -12,8 +12,9 @@
   - git-core  
   - tmux
   - htop
-  - mc  
+  - mc
   - vim
   - curl
 - name: ENV | zookeepers
   template: src=zookeeper.sh.j2 dest=/etc/profile.d/zookeeper.sh mode=755
+  when: 1 == 2
