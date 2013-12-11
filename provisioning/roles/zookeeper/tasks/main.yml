@@ -1,16 +1,14 @@
-- apt_repository: repo='deb [arch=amd64] http://archive.cloudera.com/cdh4/ubuntu/precise/amd64/cdh precise-cdh4 contrib' state=present update_cache=yes
-- apt: pkg=$item state=latest install_recommends=yes force=yes
-  with_items:
-  - zookeeper
-  - zookeeper-server
-- name: zookeeper | check dir
-  stat: path=/var/lib/zookeeper/version-2
-  register: check_path
-- name: zookeeper | datadir owner
-  file: dest=/var/lib/zookeeper mode=774 owner=zookeeper group=zookeeper state=directory recurse=yes
-  when: check_path.stat.exists == false
-- name: zookeeper | init
-  shell: service zookeeper-server init
-  when: check_path.stat.exists == false
-- service: name=zookeeper-server state=started
-
+- name: zookeeper registry | present?
+  shell: docker images | grep 42195/zookeeper
+  register: zookeeper_present
+  ignore_errors: true
+- name: zookeeper registry | pull 42195/zookeeper
+  shell: docker pull 42195/zookeeper
+  when: zookeeper_present.stdout.find('zookeeper') == -1
+- name: zookeeper | running?
+  shell: docker ps | grep 42195/zookeeper
+  register: zookeeper_running
+  ignore_errors: true
+- name: zookeeper | start
+  shell: docker run -d -p 5000:5000 42195/zookeeper
+  when: zookeeper_running.stdout.find('zookeeper') == -1

@@ -29,3 +29,10 @@ ansible-playbook playbook.yml -i inventory --private-key=./../scripts/sshkey/id_
 ### Seed infrastructure tier 2 - (director)hitchcock
 
 ### Seed application tier 1 - mesos slave
+
+## Broken
+
+### cgroup and fstab
+
+See https://github.com/dotcloud/docker/issues/431
+https://github.com/dotcloud/docker/wiki/debian-package

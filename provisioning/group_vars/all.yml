@@ -1,3 +1,4 @@
 ---
+realm: example.com
 env: dev
 cluster: cluster1

@@ -4,8 +4,7 @@
   - python-pycurl
 - apt_repository: repo='ppa:git-core'
 - apt_key: url=https://get.docker.io/gpg state=present
-- apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=present
-- apt: update_cache=yes cache_valid_time=7200
+- apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=present update_cache=true
 - apt: pkg=$item state=latest install_recommends=no
   with_items:
   - lxc-docker
@@ -15,6 +14,13 @@
   - mc
   - vim
   - curl
+- lineinfile: 
+    dest: /etc/fstab
+    regexp: cgroup
+    line: "cgroup  /sys/fs/cgroup  cgroup  defaults  0   0" 
+  register: fstab_cgroup
+- shell: mount /sys/fs/cgroup
+  when: fstab_cgroup.changed == true
 - name: ENV | zookeepers
   template: src=zookeeper.sh.j2 dest=/etc/profile.d/zookeeper.sh mode=755
   when: 1 == 2

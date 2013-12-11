@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
   # for vagrant-cachier
   # config.cache.auto_detect = true
 
-  # config.vm.synced_folder ".", "/vagrant", nfs: false
+  config.vm.synced_folder ".", "/vagrant", nfs: false
 
   # config.landrush.enable
   # config.landrush.host "director.#{cluster_name}.#{env}", '10.1.4.10'
