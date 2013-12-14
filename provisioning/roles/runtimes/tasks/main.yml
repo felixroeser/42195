@@ -1,7 +1,6 @@
 ---
-- apt_repository: repo='ppa:brightbox/ruby-ng'
-- apt_repository: repo='ppa:chris-lea/node.js'
-- apt: update_cache=yes cache_valid_time=7200
+- apt_repository: repo='ppa:brightbox/ruby-ng' update_cache=true
+- apt_repository: repo='ppa:chris-lea/node.js' update_cache=true
 - apt: pkg=$item state=latest install_recommends=no
   with_items:
   - build-essential

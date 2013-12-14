@@ -10,16 +10,18 @@
 [it1_vorarbeiter]
 10.1.10.10
 
-[it0]
+[maloche]
+10.1.11.10
+
+[it0:children]
 it0_dockers
 it0_zookeepers
 
 [it1:children]
 it1_vorarbeiter
 
-[maloche]
-10.1.3.10
-10.1.3.11
+[app:children]
+maloche
 
 [hdfsnamenodes]
 10.1.2.10
