@@ -16,7 +16,7 @@
     - role: java
     - role: mesos
       master: true
-    # - role: marathon
+    - role: marathon
 
 - hosts: maloche
   roles:
