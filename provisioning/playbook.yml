@@ -2,15 +2,16 @@
 - hosts: all
   roles:
     - role: common
-- hosts: it0:dockers
+
+- hosts: it0_dockers
   roles:
     - role: docker
 
-- hosts: it0:zookeepers
+- hosts: it0_zookeepers
   roles:
     - role: zookeeper
 
-- hosts: it1:vorarbeiter
+- hosts: it1_vorarbeiter
   roles:
     - role: java
     - role: mesos

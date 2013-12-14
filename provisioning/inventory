@@ -1,14 +1,21 @@
 [it0]
 10.1.10.10
 
-[it0:dockers]
+[it0_dockers]
 10.1.10.10
 
-[it0:zookeepers]
+[it0_zookeepers]
 10.1.10.10
 
-[it1:vorarbeiter]
+[it1_vorarbeiter]
 10.1.10.10
+
+[it0]
+it0_dockers
+it0_zookeepers
+
+[it1:children]
+it1_vorarbeiter
 
 [maloche]
 10.1.3.10

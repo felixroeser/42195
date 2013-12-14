@@ -26,6 +26,10 @@ ansible-playbook playbook.yml -i inventory --private-key=./../scripts/sshkey/id_
 
 ### Seed infrastructure tier 1 - mesos and marathon
 
+````
+ansible-playbook playbook.yml -i inventory --private-key=./../scripts/sshkey/id_rsa -vvvv -u root -s -l it1
+````
+
 ### Seed infrastructure tier 2 - (director)hitchcock
 
 ### Seed application tier 1 - mesos slave
