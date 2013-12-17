@@ -39,3 +39,14 @@ ansible-playbook playbook.yml -i inventory --private-key=./../scripts/sshkey/id_
 ````
 ansible-playbook playbook.yml -i inventory --private-key=./../scripts/sshkey/id_rsa -vvvv -u root -s -l app
 ````
+
+## Examples
+
+````
+vagrant ssh it0-0
+http POST http://localhost:8080/v1/apps/start \
+            id=sinatra instances=1 mem=256 cpus=1 \
+            executor=/var/lib/mesos/executors/docker \
+            cmd='42195/sinatra-example'
+curl http://localhost:8080/v1/endpoints
+````

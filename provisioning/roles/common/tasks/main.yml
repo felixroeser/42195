@@ -14,6 +14,7 @@
   - mc
   - vim
   - curl
+  - python-setuptools  
 - lineinfile: 
     dest: /etc/fstab
     regexp: cgroup
@@ -21,6 +22,7 @@
   register: fstab_cgroup
 - shell: mount /sys/fs/cgroup
   when: fstab_cgroup.changed == true
+- easy_install: name=httpie
 - name: ENV | zookeepers
   template: src=zookeeper.sh.j2 dest=/etc/profile.d/zookeeper.sh mode=755
   when: 1 == 2
