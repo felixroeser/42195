@@ -48,8 +48,9 @@
 - file: path=/var/lib/mesos/executors state=directory
 - name: mesos | docker executor
   get_url:
-    url: https://raw.github.com/mesosphere/mesos-docker/master/bin/mesos-docker
+    url: https://raw.github.com/mesosphere/mesos-docker/fc1aae6f05279dc5b3cdd24bbeec34e771a8238f/bin/mesos-docker
     dest: /var/lib/mesos/executors/docker
+    sha256sum: 3ec2f2e534b0389e794d5de70c848af0654770514f120c1c3105e507600d0a12
 - name: mesos | start master service
   service: name=mesos-master state=started
   when: master == true

@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vbguest.auto_update = true
 
   # NOT YET
-  # config.landrush.enable
+  config.landrush.enable
 
   config.vm.define 'it0-0' do |cfg|
     cfg.vm.provider :virtualbox do |vb|
