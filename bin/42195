@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', '42195'))
+require 'colorize'
+require 'awesome_print'
+require 'trollop'
+
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV.root = Dir.pwd
+
+SUB_COMMANDS = %w[update]
+
+global_opts = Trollop.options do
+  version MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV::VERSION
+
+  stop_on SUB_COMMANDS
+end
+
+cmd = ARGV.shift
+
+cmd_opts = case cmd
+when 'update'
+  Trollop.options do
+    opt :realm, 'A unique identifier for the realm.', short: '-r', type: String, required: true
+    opt :environment, 'An environment identifier', short: '-e', type: String, required: true
+  end
+
+else
+  {}
+end
+
+if cmd == 'update'
+  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV::Commands::Update.run(cmd_opts)
+else
+  Trollop.die "unknown subcommand #{cmd.inspect}"
+end

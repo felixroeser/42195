@@ -50,3 +50,10 @@ http POST http://localhost:8080/v1/apps/start \
             cmd='42195/sinatra-example'
 curl http://localhost:8080/v1/endpoints
 ````
+
+
+## GEM
+
+````
+./bin/42195 update --realm example.com --environment dev1
+````
