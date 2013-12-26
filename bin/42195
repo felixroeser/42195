@@ -17,17 +17,27 @@ end
 cmd = ARGV.shift
 
 cmd_opts = case cmd
+when 'init'
+  Trollop.options do
+    opt :dir, 'Directory that stores config and state', short: '-d', type: String, default: "#{Dir.pwd}/42195"
+    opt :skip_example, 'Dont write some example files', type: :boolean, default: false
+  end
+when 'list'
+  {}
+when 'status'
+  {}
 when 'update'
   Trollop.options do
     opt :realm, 'A unique identifier for the realm.', short: '-r', type: String, required: true
     opt :environment, 'An environment identifier', short: '-e', type: String, required: true
   end
-
 else
   {}
 end
 
-if cmd == 'update'
+if cmd == 'init'
+  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV::Commands::Init.new(cmd_opts).run
+elsif cmd == 'update'
   MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV::Commands::Update.run(cmd_opts)
 else
   Trollop.die "unknown subcommand #{cmd.inspect}"

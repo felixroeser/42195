@@ -1,0 +1,28 @@
+{
+  "realms": {
+    "example.com": {
+      "enabled": false,
+      "environments": {
+        "dev1": {
+          "provider": "virtualbox",
+          "groups": {
+            "it": {
+              "covers": ["it0", "it1", "it2"],
+              "instances": 1,
+              "memory": 1576,
+              "cpu": 1,
+              "mask": "10.1.10.X"
+            },
+            "app": {
+              "covers": ["app0"],
+              "instances": 2,
+              "memory": 376,
+              "cpu": 1,
+              "mask": "10.1.11.X"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,7 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
       @data = data
 
       @environments = @data['environments'].collect { |name, data| Environment.new(name, data, self) } rescue {}
+      @enabled      = @data['enabled']
     end
 
     def environments(environment_name)
