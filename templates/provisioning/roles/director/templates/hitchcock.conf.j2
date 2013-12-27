@@ -1,9 +1,0 @@
-description "Hitchcock - manager for haprxy"
-
-start on runlevel [2345]
-stop on runlevel [!2345]
-
-respawn
-respawn limit 10 5
-
-exec /usr/local/bin/hitchcock --zookeepers {{ hostvars[groups['zookeepers'][0]]['inventory_hostname'] }} --env {{env}} --cluster {{cluster}} start
