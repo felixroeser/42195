@@ -1,5 +1,3 @@
-require 'fileutils'
-
 module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
   module Commands
     class Init
@@ -18,7 +16,9 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
       private
 
       def ensure_dir
-        FileUtils.mkdir_p(@dir) unless Dir.exist?(@dir)
+        [@dir, "#{@dir}/state"].each do |dir|
+          FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
+        end
       end
 
       def ensure_id_file

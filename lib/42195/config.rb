@@ -9,12 +9,14 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
       else
         JSON.parse(File.read(input))
       end
-
-      @realms = @data['realms'].collect { |name, data| Realm.new(name, data) } rescue {}
     end
 
-    def realms(realm_name)
-      @realms.find { |r| r.name == realm_name } rescue nil
+    def realms
+      @realms ||= @data['realms'].collect { |name, data| Realm.new(name, data) } rescue {}
+    end
+
+    def realm(realm_name)
+      realms.find { |r| r.name == realm_name } rescue nil
     end
 
   end

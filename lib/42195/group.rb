@@ -1,25 +1,37 @@
+require 'ipaddress'
+
 module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
   class Group
 
-    attr_reader :name, :covers, :instances, :memory, :cpu, :mask
+    attr_reader :name, :covers, :instances, :memory, :cpu, :ipmask
 
     def initialize(name, data)
       @name = name
       @data = data
 
-      @covers    = data['covers'] || []
-      @instances = data['instances'] || 1
-      @memory    = data['memory'] || 1024
-      @cpu       = data['cpu'] || 1
-      @mask      = data['mask']
+      @covers       = data['covers'] || []
+      @memory       = data['memory'] || 1024
+      @cpu          = data['cpu'] || 1
+      @ipmask       = IPAddress data['ipmask']
+      @nr_instances = data['instances'] || 1
+      @instances    = @nr_instances.times.collect { |i| Instance.new(self, i, {}) }      
+    end
+
+    def all_ips
+      @all_ips ||= ipmask.enum_for(:each_host).map { |host| host.to_s }[0...@nr_instances]
+    end
+
+    def roles
+      Group.roles.slice(*@covers)
+    end
+
+    def self.roles
+      {
+        "it0"  => %w(dockers zookeepers),
+        "it1"  => %w(vorarbeiter),
+        "app0" => %w(maloche)
+      }
     end
 
   end
 end
-
-# "name": "it",
-# "covers": ["it0", "it1", "it2"],
-# "instances": 1,
-# "memory": 1576,
-# "cpu": 1,
-# "mask": "10.1.10.X"

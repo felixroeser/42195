@@ -1,0 +1,14 @@
+- name: docker registry | present?
+  shell: docker images | grep stackbrew/registry  
+  register: docker_registry_present
+  ignore_errors: true
+- name: docker registry | pull
+  shell: docker pull stackbrew/registry
+  when: docker_registry_present.stdout.find('registry') == -1
+- name: docker registry | running?
+  shell: docker ps | grep stackbrew/registry
+  register: docker_registry_running
+  ignore_errors: true
+- name: docker registry | start
+  shell: docker run -d -p 5000:5000 stackbrew/registry
+  when: docker_registry_running.stdout.find('registry') == -1

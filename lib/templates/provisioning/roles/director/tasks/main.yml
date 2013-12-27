@@ -1,0 +1,23 @@
+---
+- apt: pkg=$item state=latest install_recommends=no
+  with_items:
+  - python-pycurl
+- apt_repository: repo='ppa:vbernat/haproxy-1.4'
+- apt: pkg=$item state=latest install_recommends=no
+  with_items:
+  - haproxy
+  - apache2-utils
+- lineinfile:
+    dest: /etc/default/haproxy
+    regexp: ^ENABLED=
+    line: ENABLED=0
+- name: hitchcock | download
+  get_url:
+    url: https://dl.dropboxusercontent.com/u/1379756/binarysolo/hitchcock-0.0.2.gem
+    dest: /usr/local/hitchcock-0.0.2.gem
+    sha256sum: d0a567d7d0384eadfcb92db0c50d424b7fd8d300b5dd7234938121490aeebab5
+- name: hitchcock | install
+  shell: 'gem install --no-ri --no-rdoc /usr/local/hitchcock-0.0.2.gem '
+- name: hitchcock | upstart config
+  template: src=hitchcock.conf.j2 dest=/etc/init/hitchcock.conf
+- service: name=hitchcock state=started

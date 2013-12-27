@@ -1,0 +1,19 @@
+<%- @groups.each do |group| -%>
+<%- group.roles.each do |(role, functions)| -%>
+<% functions.each do |function| %>
+[<%= "#{role}_#{function}" %>]
+<%- group.instances.each do |instance| -%>
+<%= instance.ip %>
+<%- end -%>
+<%- end -%>
+<%- end -%>
+<%- end -%>
+
+<%- Group.roles.each do |(role, functions)| -%>
+[<%= "#{role}:children" %>]
+<%- functions.each do |function| -%>
+<%= "#{role}_#{function}" %>
+<%- end -%>
+<%- end -%>
+
+

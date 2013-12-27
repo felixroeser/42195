@@ -1,0 +1,65 @@
+- name: mesos | download
+  get_url:
+    url: http://downloads.mesosphere.io/master/ubuntu/12.04/mesos_0.15.0-rc4_amd64.deb
+    dest: /usr/local/mesos_0.15.0-rc4_amd64.deb
+    sha256sum: 60af1bc005d0460373f87c3978abd7444b02c9962224922b616c1e7a08117c74
+- name: mesos | install
+  command: dpkg --skip-same-version -i /usr/local/{{ item }}
+  register: dpkg_result
+  changed_when: "dpkg_result.stdout.startswith('Selecting')"
+  with_items: 
+    - mesos_0.15.0-rc4_amd64.deb
+- name: mesos | zookeeper config
+  template: src=zk.j2 dest=/etc/mesos/zk
+- name: mesos | ip address
+  template: src=ip.j2 dest=/etc/mesos/ip
+- name: mesos | cluster name
+  template: src=cluster.j2 dest=/etc/mesos/cluster
+- lineinfile: 
+    dest: /etc/default/mesos
+    regexp: ^IP=
+    line: IP=`cat /etc/mesos/ip`
+- lineinfile: 
+    dest: /etc/default/mesos-master
+    regexp: ^CLUSTER=
+    line: CLUSTER=`cat /etc/mesos/cluster`
+  when: master == true
+- lineinfile:
+    dest: /etc/init/mesos-slave.override
+    regexp: manual
+    line: manual
+    create: yes
+  when: master == true
+- lineinfile:
+    dest: /etc/init/mesos-master.override
+    regexp: manual
+    line: manual
+    create: yes
+  when: master == false
+- name: mesos | wrapper
+  template: src=mesos-init-wrapper.j2 dest=/usr/bin/mesos-init-wrapper mode=755
+- name: mesos | python bindings | download
+  get_url:
+    url: https://dl.dropboxusercontent.com/u/1379756/binarysolo/mesos-0.15.0-py2.7-linux-x86_64.egg
+    dest: /usr/local/mesos-0.15.0-py2.7-linux-x86_64.egg
+    sha256sum: 92be1cd78a3fba4ab352193b55af0f410bc826c6db4a52e95b3a9c2f875e3a9b
+- name: mesos | python bindings | install
+  shell: easy_install /usr/local/mesos-0.15.0-py2.7-linux-x86_64.egg
+- file: path=/var/lib/mesos/executors state=directory
+- name: mesos | docker executor
+  get_url:
+    url: https://raw.github.com/mesosphere/mesos-docker/fc1aae6f05279dc5b3cdd24bbeec34e771a8238f/bin/mesos-docker
+    dest: /var/lib/mesos/executors/docker
+    sha256sum: 3ec2f2e534b0389e794d5de70c848af0654770514f120c1c3105e507600d0a12
+- name: mesos | start master service
+  service: name=mesos-master state=started
+  when: master == true
+- name: mesos | start master service
+  service: name=mesos-master state=stopped
+  when: master == false
+- name: mesos | start slave service
+  service: name=mesos-slave state=started
+  when: master == false
+- name: mesos | start slave service
+  service: name=mesos-slave state=stopped
+  when: master == true

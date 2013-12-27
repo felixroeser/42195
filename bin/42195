@@ -37,8 +37,10 @@ end
 
 if cmd == 'init'
   MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV::Commands::Init.new(cmd_opts).run
+elsif cmd == 'list'
+  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV::Commands::List.new(cmd_opts).run
 elsif cmd == 'update'
-  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV::Commands::Update.run(cmd_opts)
+  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV::Commands::Update.new(cmd_opts).run
 else
   Trollop.die "unknown subcommand #{cmd.inspect}"
 end

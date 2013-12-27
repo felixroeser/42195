@@ -1,0 +1,37 @@
+- apt_repository: repo='deb [arch=amd64] http://archive.cloudera.com/cdh4/ubuntu/precise/amd64/cdh precise-cdh4 contrib' state=present update_cache=yes
+- apt: pkg=$item state=latest install_recommends=yes force=yes
+  with_items:
+  - hadoop-hdfs-datanode
+  when: namenode == false
+- apt: pkg=$item state=latest install_recommends=yes force=yes
+  with_items:
+  - hadoop-hdfs-namenode
+  when: namenode
+- name: hdfs namenode | check dir
+  stat: path=/var/lib/hadoop-hdfs/cache/hdfs/dfs/name
+  register: check_path
+  when: namenode
+- name: hdfs namenode | format
+  shell: hadoop namenode -format
+  when: namenode == true and check_path.stat.exists == false
+- name: hdfs namenode | owner
+  file: dest=/var/lib/hadoop-hdfs/cache/hdfs/dfs/name mode=774 owner=hdfs group=hdfs state=directory recurse=yes
+  # when: check_path.stat.exists == false
+- name: hdfs datanode | owner
+  file: dest=/var/lib/hadoop-hdfs/cache/hdfs/dfs/data mode=774 owner=hdfs group=hdfs state=directory recurse=yes
+- name: hdfs namenode | masters template
+  template: src=masters.j2 dest=/etc/hadoop/conf/masters
+  when: namenode
+- name: hdfs namenode | masters template
+  template: src=slaves.j2 dest=/etc/hadoop/conf/slaves
+  when: namenode
+- name: hdfs namenode | coresite template
+  template: src=core-site.xml.j2 dest=/etc/hadoop/conf/core-site.xml
+- name: hdfs namenode | hdfssite template
+  template: src=hdfs-site.xml.j2 dest=/etc/hadoop/conf/hdfs-site.xml
+- service: name=hadoop-hdfs-namenode state=started
+  when: namenode
+- service: name=hadoop-hdfs-datanode state=started
+  when: namenode == false
+
+

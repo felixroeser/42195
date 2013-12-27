@@ -1,0 +1,1 @@
+--master zk://{{ hostvars[groups['it0_zookeepers'][0]]['inventory_hostname'] }}/mesos --zk_hosts {{ hostvars[groups['it0_zookeepers'][0]]['inventory_hostname'] }}

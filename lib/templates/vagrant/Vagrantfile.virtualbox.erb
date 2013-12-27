@@ -20,16 +20,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # NOT YET
   # config.landrush.enable
 
-  <% @environment.groups.each do |group| %>
+  <% @groups.each do |group| %>
 
-    <% group.instances.times do |instance_index| %>
+    <% group.instances.each do |instance| %>
 
-      config.vm.define "<%= group.name %>-<%= instance_index %>" do |cfg|
+      config.vm.define <%= instance.name %> do |cfg|
         cfg.vm.provider :virtualbox do |vb|
-          vb.customize ["modifyvm", :id, "--memory", 1024, "--cpus", 1 ]
+          vb.customize <%= @provider.customize_for_instance(instance) %>
         end
-        cfg.vm.network :private_network, ip: "10.1.10.10"
-        cfg.vm.hostname = 'it0-0'
+        cfg.vm.network :private_network, ip: '<%= instance.ip %>'
+        cfg.vm.hostname = <%= instance.name %>
         cfg.vm.provision :hosts
         ssh_provisioning(cfg)
       end

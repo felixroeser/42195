@@ -3,15 +3,19 @@ $LOAD_PATH.unshift __LIB_DIR__ unless $LOAD_PATH.include?(__LIB_DIR__)
 
 require 'json'
 require 'erb'
+require 'fileutils'
 require 'pathname'
+require 'active_support/core_ext/hash'
 
 require '42195/version'
 require '42195/config'
 require '42195/realm'
 require '42195/group'
+require '42195/instance'
 require '42195/environment'
-require '42195/provider'
+require '42195/providers'
 require '42195/commands/init'
+require '42195/commands/list'
 require '42195/commands/update'
 
 
@@ -31,7 +35,7 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
   end
 
   def self.templates_path
-    "#{gem_root}/templates"
+    "#{gem_root}/lib/templates"
   end
 
 end
