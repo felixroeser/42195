@@ -18,7 +18,7 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
     end
 
     def all_ips
-      @all_ips ||= ipmask.enum_for(:each_host).map { |host| host.to_s }[0...@nr_instances]
+      @all_ips ||= ipmask.enum_for(:each_host).map { |host| host.to_s }[10...10+@nr_instances]
     end
 
     def roles

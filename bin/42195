@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', '42195'))
 require 'colorize'
 require 'awesome_print'

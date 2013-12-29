@@ -4,7 +4,6 @@
 def ssh_provisioning(config)
   config.vm.provision :shell do |s|
     s.path = "scripts/populate_sshkey.sh"
-    s.args = "/root root"
   end
 end
 
@@ -24,12 +23,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     <% group.instances.each do |instance| %>
 
-      config.vm.define <%= instance.name %> do |cfg|
+      config.vm.define '<%= instance.name %>' do |cfg|
         cfg.vm.provider :virtualbox do |vb|
           vb.customize <%= @provider.customize_for_instance(instance) %>
         end
         cfg.vm.network :private_network, ip: '<%= instance.ip %>'
-        cfg.vm.hostname = <%= instance.name %>
+        cfg.vm.hostname = '<%= instance.name %>'
         cfg.vm.provision :hosts
         ssh_provisioning(cfg)
       end

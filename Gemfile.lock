@@ -1,3 +1,15 @@
+GIT
+  remote: https://github.com/mitchellh/vagrant.git
+  revision: 1af037754124691f67a0232b365f85152f61d8de
+  specs:
+    vagrant (1.4.2.dev)
+      childprocess (~> 0.3.7)
+      erubis (~> 2.7.0)
+      i18n (~> 0.6.0)
+      log4r (~> 1.1.9)
+      net-scp (~> 1.1.0)
+      net-ssh (>= 2.6.6, < 2.8.0)
+
 PATH
   remote: .
   specs:
@@ -20,14 +32,23 @@ GEM
     activesupport (3.0.0)
     addressable (2.3.5)
     awesome_print (1.2.0)
+    childprocess (0.3.9)
+      ffi (~> 1.0, >= 1.0.11)
     colorize (0.6.0)
     diff-lcs (1.2.4)
     domainatrix (0.0.11)
       addressable
+    erubis (2.7.0)
+    ffi (1.9.3)
     given_core (3.1.1)
       sorcerer (>= 0.3.7)
     highline (1.6.20)
+    i18n (0.6.9)
     ipaddress (0.8.0)
+    log4r (1.1.10)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.7.0)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -51,3 +72,4 @@ DEPENDENCIES
   42195!
   rspec (~> 2.14.1)
   rspec-given (~> 3.1.1)
+  vagrant!

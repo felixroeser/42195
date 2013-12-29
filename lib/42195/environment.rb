@@ -9,10 +9,6 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
       @realm    = realm
       @provider = Providers.find_by_name(@data['provider']).new
       @groups   = @data['groups'].collect { |name, data| Group.new(name, data)}
-
-      ap [
-        @groups
-      ]
     end
 
     def render
@@ -32,6 +28,10 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
         inventory: {
           erb: File.read("#{MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV.templates_path}/ansible/inventory.erb"),
           dest: "inventory"
+        },
+        populate_sshkey: {
+          erb: File.read("#{MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV.templates_path}/vagrant/populate_sshkey.sh.erb"),
+          dest: "scripts/populate_sshkey.sh"          
         }
       }.merge(provider.templates)
     end

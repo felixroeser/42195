@@ -25,22 +25,45 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
         #   @environment
         # ]
 
+        # A Vagrant environment is required to run this command. Run `vagrant init`
+
         ensure_dir
+        ensure_dir_in_gitignore
         Dir.chdir(working_dir) do
           copy_playbooks
           render_and_write_templates
-        end
 
+          status = `vagrant status`
+          puts status
+
+          puts `vagrant up`
+
+          # opts = {}
+          # env = ::Vagrant::Environment.new(opts)
+          # ap env.active_machines
+        end
+        commit_changes
       end
 
       private
 
       def working_dir
-        "#{MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV.root}/state/#{@realm.name}/#{@environment.name}"
+        "#{MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV.root}/#{relative_working_dir}"
+      end
+
+      def relative_working_dir
+        "state/#{@realm.name}/#{@environment.name}"
       end
 
       def ensure_dir
         FileUtils.mkdir_p(working_dir) unless Dir.exist?(working_dir)
+      end
+
+      def ensure_dir_in_gitignore
+        path = "#{relative_working_dir}/provisioning"
+        file = "#{MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV.root}/.gitignore"
+        FileUtils.touch(file) unless File.exist?(file)
+        `echo #{path} > #{file}` unless File.read(file).index(path)
       end
 
       def render_and_write_templates
@@ -57,6 +80,13 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
       def copy_playbooks
         cmd = "rsync -av #{MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV.templates_path}/provisioning ."
         `#{cmd}`
+      end
+
+      def commit_changes
+        status = `git status`
+        if status.index('nothing added to commit but untracked files present')
+          `git add . ; git commit -m '[bot] updated #{@realm.name}.#{@environment.name}'`
+        end
       end
 
       def valid?
