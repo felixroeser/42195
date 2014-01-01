@@ -14,6 +14,11 @@
 <%- functions.each do |function| -%>
 <%= "#{role}_#{function}" %>
 <%- end -%>
+
 <%- end -%>
 
-
+[it:children]
+<%- Group.roles.each do |(role, _)| -%>
+<%- next unless role =~ /it\d/ -%>
+<%= role %>
+<%- end -%>

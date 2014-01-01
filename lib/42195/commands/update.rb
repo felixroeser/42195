@@ -5,12 +5,20 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
     class Update
 
       def initialize(opts={})
-        @realm = config.realm(opts[:realm]) rescue nil
-        @environment = @realm.environment(opts[:environment]) rescue nil
+
+        realm_arg, environment_arg = if state_dir? && opts[:realm].blank? && opts[:environment].blank?
+          [File.expand_path( './../').split('/').last, File.expand_path( './').split('/').last]
+        else
+          [opts[:realm], opts[:environment]]
+        end
+
+        @realm       = config.realm(realm_arg) rescue nil
+        @environment = @realm.environment(environment_arg) rescue nil
+        @apply       = opts[:apply] || false
       end
 
       def run
-        unless is_42195_dir?
+        unless is_42195_project?
           puts "Not a 42195 dir".colorize(:red)
           return false
         end
@@ -20,32 +28,40 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
           return false 
         end
 
-        # ap [
-        #   @realm,
-        #   @environment
-        # ]
+        puts "Called update with #{@realm.name}-#{@environment.name}".colorize(:blue)
 
-        # A Vagrant environment is required to run this command. Run `vagrant init`
 
         ensure_dir
         ensure_dir_in_gitignore
         Dir.chdir(working_dir) do
           copy_playbooks
           render_and_write_templates
-
-          status = `vagrant status`
-          puts status
-
-          puts `vagrant up`
-
-          # opts = {}
-          # env = ::Vagrant::Environment.new(opts)
-          # ap env.active_machines
         end
         commit_changes
+
+        puts "Written current configuration".colorize(:green)
+
+        if @apply
+          Dir.chdir(working_dir) do
+            puts "Applying configuration....".colorize(:yellow)
+            # Ensure all machines are up and running
+            puts `vagrant up --provider #{@environment.provider.name_for_vagrant}`
+          end
+
+          # Provision the boxes
+          Dir.chdir(provisioning_dir) do
+            # puts `ansible-playbook playbook.yml -i ../inventory --private-key=./../scripts/sshkey/id_rsa #{'-vvvv' if verbose?} -u root -s -l it`
+          end
+
+        end
+
       end
 
       private
+
+      def provisioning_dir
+        "#{working_dir}/provisioning"
+      end
 
       def working_dir
         "#{MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV.root}/#{relative_working_dir}"
@@ -94,11 +110,24 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
       end
 
       def config
-        @config ||= Config.new(JSON.parse(File.read("config.json")))
+        file = project_root? ? './config.json' : '../../../config.json'
+        @config ||= Config.new(JSON.parse(File.read(file)))
       end
 
-      def is_42195_dir?
+      def is_42195_project?
+        project_root? || state_dir?
+      end
+
+      def project_root?
         File.exist?(".42195")
+      end
+
+      def state_dir?
+        File.exist?("./../../../.42195")
+      end
+
+      def verbose?
+        true
       end
 
     end

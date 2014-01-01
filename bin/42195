@@ -31,8 +31,9 @@ when 'status'
   {}
 when 'update'
   Trollop.options do
-    opt :realm, 'A unique identifier for the realm.', short: '-r', type: String, required: true
-    opt :environment, 'An environment identifier', short: '-e', type: String, required: true
+    opt :realm, 'A unique identifier for the realm.', short: '-r', type: String
+    opt :environment, 'An environment identifier', short: '-e', type: String
+    opt :apply, 'Apply configuration right away', type: :boolean, default: false
   end
 else
   {}
