@@ -15,6 +15,8 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
         @realm       = config.realm(realm_arg) rescue nil
         @environment = @realm.environment(environment_arg) rescue nil
         @apply       = opts[:apply] || false
+
+        ap @environment.groups
       end
 
       def run
@@ -28,8 +30,12 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
           return false 
         end
 
-        puts "Called update with #{@realm.name}-#{@environment.name}".colorize(:blue)
+        unless enabled?
+          puts "Realm or environment not enabled!".colorize(:red)
+          return false
+        end
 
+        puts "Called update with #{@realm.name}-#{@environment.name}".colorize(:blue)
 
         ensure_dir
         ensure_dir_in_gitignore
@@ -37,6 +43,8 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
           copy_playbooks
           render_and_write_templates
         end
+
+        ignore_state_dir_if_configured
         commit_changes
 
         puts "Written current configuration".colorize(:green)
@@ -50,7 +58,10 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
 
           # Provision the boxes
           Dir.chdir(provisioning_dir) do
-            # puts `ansible-playbook playbook.yml -i ../inventory --private-key=./../scripts/sshkey/id_rsa #{'-vvvv' if verbose?} -u root -s -l it`
+            # Using ssh-agent is prefered
+            pk_param = "--private-key=#{@environment.users['root']['private_key_path']}" rescue nil
+
+            # puts `ansible-playbook playbook.yml -i ../inventory #{pk_param if pk_param} #{'-vvvv' if verbose?} -u root -s -l it`
           end
 
         end
@@ -98,6 +109,13 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
         `#{cmd}`
       end
 
+      def ignore_state_dir_if_configured
+        return unless @environment.shared
+        file = "#{MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV.root}/.gitignore"
+        path = "#{relative_working_dir}/.vagrant"          
+        `echo #{path} > #{file}` unless File.read(file).index(path)
+      end
+
       def commit_changes
         status = `git status`
         if status.index('nothing added to commit but untracked files present')
@@ -107,6 +125,10 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
 
       def valid?
         @realm.present? && @environment.present?
+      end
+
+      def enabled?
+        @realm.enabled && @environment.enabled
       end
 
       def config

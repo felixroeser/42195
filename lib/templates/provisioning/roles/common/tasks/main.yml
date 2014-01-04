@@ -14,7 +14,7 @@
   - mc
   - vim
   - curl
-  - python-setuptools  
+  - python-setuptools
 - lineinfile: 
     dest: /etc/fstab
     regexp: cgroup

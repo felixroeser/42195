@@ -1,24 +1,25 @@
 module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
   class Environment
 
-    attr_accessor :name, :provider, :groups
+    attr_accessor :name, :provider, :groups, :users, :enabled
 
     def initialize(name, data, realm)
       @name     = name
       @data     = data
       @realm    = realm
+      @enabled  = @data['enabled']
+      @shared   = @data['shared'] && realm.enabled
       @provider = Providers.find_by_name(@data['provider']).new
       @groups   = @data['groups'].collect { |name, data| Group.new(name, data)}
+      @users    = realm.users.merge(@data['users'] || {})
     end
 
     def render
       templates.reduce({}) do |memo, (type, template)|
-
         memo[type] = {
           rendered: ERB.new(template[:erb], nil, '-').result(binding),
           dest: template[:dest]
         }
-
         memo
       end
     end

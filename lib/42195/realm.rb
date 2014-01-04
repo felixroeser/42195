@@ -1,13 +1,13 @@
 module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
   class Realm
 
-    attr_accessor :name, :enabled, :users
+    attr_accessor :name, :enabled, :users, :enabled
 
     def initialize(name, data)
       @name    = name
       @data    = data      
-      @enabled = @data['enabled']
-      @users   = @data['users']
+      @enabled = @data['enabled'] || false
+      @users   = @data['users'] || {}
     end
 
     def environments
