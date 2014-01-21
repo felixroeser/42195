@@ -1,4 +1,4 @@
-<%- @environment.users.each do |username, userhash| %>
+<%- @users.each do |username, userhash| %>
 sudo -u <%= username %> mkdir -p <%= userhash['home'] %>/.ssh
 sudo -u <%= username %> chmod 700 <%= userhash['home'] %>/.ssh
 sudo -u <%= username %> echo '<%= userhash['public_key'] %>' >> <%= userhash['home'] %>/.ssh/authorized_keys

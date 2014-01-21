@@ -13,6 +13,7 @@ require 'active_support/core_ext/hash'
 
 require '42195/version'
 require '42195/config'
+require '42195/instance_type'
 require '42195/realm'
 require '42195/group'
 require '42195/instance'

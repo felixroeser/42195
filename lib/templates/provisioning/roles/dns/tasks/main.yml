@@ -1,0 +1,4 @@
+---
+- apt: pkg=$item state=latest install_recommends=no
+  with_items:
+  - dnsmasq

@@ -1,4 +1,18 @@
 {
+  "instance_types": {
+    "small_app": {
+      "virtualbox": {
+        "memory": 376,
+        "cpu": 1
+      }
+    },
+    "medium_it": {
+      "virtualbox": {
+        "memory": 1576,
+        "cpu": 1
+      }
+    }
+  },
   "realms": {
     "example.com": {
       "enabled": false,
@@ -17,15 +31,13 @@
             "it": {
               "covers": ["it0", "it1", "it2"],
               "instances": 1,
-              "memory": 1576,
-              "cpu": 1,
+              "instance_type": "medium_it",
               "ipmask": "10.1.10.1/24"
             },
             "app": {
               "covers": ["app0"],
               "instances": 2,
-              "memory": 376,
-              "cpu": 1,
+              "instance_type": "small_app",              
               "ipmask": "10.1.11.1/24"
             }
           }

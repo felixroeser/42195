@@ -3,18 +3,23 @@ require 'ipaddress'
 module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
   class Group
 
-    attr_reader :name, :covers, :instances, :memory, :cpu, :ipmask
+    attr_reader :name, :covers, :instance_type, :instances, :memory, :cpu, :ipmask, :environment
 
-    def initialize(name, data)
+    def initialize(name, data, config, environment = nil)
       @name = name
       @data = data
 
-      @covers       = data['covers'] || []
-      @memory       = data['memory'] || 1024
-      @cpu          = data['cpu'] || 1
-      @ipmask       = IPAddress data['ipmask']
-      @nr_instances = data['instances'] || 1
-      @instances    = @nr_instances.times.collect { |i| Instance.new(self, i, {}) }      
+      @environment   = environment
+      @covers        = data['covers'] || []
+      @ipmask        = IPAddress data['ipmask']
+      @nr_instances  = data['instances'] || 1
+      @instance_type = config.instance_type(data['instance_type']) rescue nil
+      @instances     = @nr_instances.times.collect { |i| Instance.new(self, i, {}) }
+    end
+
+    # TODO implement and bail if not valid
+    def valid?
+      true
     end
 
     def all_ips

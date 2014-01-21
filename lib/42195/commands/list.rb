@@ -19,8 +19,8 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
               puts "    Provider: #{environment.provider.name}"
               ap [
                 environment.templates,
-                environment.render,
-                # environment.groups,
+                # environment.render,
+                environment.groups,
                 # environment.groups.map(&:roles)
               ]
             end

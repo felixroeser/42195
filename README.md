@@ -15,6 +15,16 @@ vagrant up
 
 ## Ansible powered provisioning
 
+Install Ansible
+
+http://docs.ansible.com/intro_installation.html
+
+````
+$ sudo add-apt-repository ppa:rquillo/ansible
+$ sudo apt-get update
+$ sudo apt-get install ansible
+````
+
 * Ips are currently hardcoded
 
 ### Seed infrastructure tier 0 - docker registry and zookeeper

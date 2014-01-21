@@ -16,19 +16,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # config.vbguest.auto_update = true
 
-  # NOT YET
-  # config.landrush.enable
-
   <% @groups.each do |group| %>
 
     <% group.instances.each do |instance| %>
 
       config.vm.define '<%= instance.name %>' do |cfg|
         cfg.vm.provider :virtualbox do |vb|
-          vb.customize <%= @provider.customize_for_instance(instance) %>
+          vb.customize <%= @provider.customize_for_instance_type(group.instance_type) %>
         end
         cfg.vm.network :private_network, ip: '<%= instance.ip %>'
-        cfg.vm.hostname = '<%= instance.name %>'
+        cfg.vm.hostname = '<%= instance.hostname %>'
         cfg.vm.provision :hosts
         ssh_provisioning(cfg)
       end
@@ -38,5 +35,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   <% end %>
 
   # config.ssh.forward_agent = true
-  # config.vm.synced_folder "../data", "/vagrant_data"
 end
