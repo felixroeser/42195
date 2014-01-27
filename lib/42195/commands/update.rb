@@ -15,8 +15,6 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
         @realm       = config.realm(realm_arg) rescue nil
         @environment = @realm.environment(environment_arg) rescue nil
         @apply       = opts[:apply] || false
-
-        ap @environment.groups
       end
 
       def run
@@ -53,7 +51,7 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
           Dir.chdir(working_dir) do
             puts "Applying configuration....".colorize(:yellow)
             # Ensure all machines are up and running
-            puts `vagrant up --provider #{@environment.provider.name_for_vagrant}`
+            puts `vagrant up --provider #{@environment.provider.name_for_vagrant} --provision`
           end
 
           # Provision the boxes
@@ -118,8 +116,9 @@ module MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMCXCV
 
       def commit_changes
         status = `git status`
-        if status.index('nothing added to commit but untracked files present')
-          `git add . ; git commit -m '[bot] updated #{@realm.name}.#{@environment.name}'`
+        # if status.index('nothing added to commit but untracked files present')
+        unless status.index('nothing to commit, working directory clean')
+          `git add -A ; git commit -m '[bot] updated #{@realm.name}.#{@environment.name}'`
         end
       end
 

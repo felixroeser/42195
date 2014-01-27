@@ -18,7 +18,7 @@
       master: true
     - role: marathon
 
-- hosts: maloche
+- hosts: app0_maloche
   roles:
     - role: java
     - role: mesos

@@ -22,3 +22,9 @@
 <%- next unless role =~ /it\d/ -%>
 <%= role %>
 <%- end -%>
+
+[app:children]
+<%- Group.roles.each do |(role, _)| -%>
+<%- next unless role =~ /app\d/ -%>
+<%= role %>
+<%- end -%>
